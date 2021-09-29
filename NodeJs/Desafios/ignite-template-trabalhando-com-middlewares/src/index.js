@@ -36,8 +36,6 @@ function checksTodoExists(request, response, next) {
 
   const user = users.find((user)=>user.username === username)
 
-  const todo = user.todos.find((todo)=>todo.id === id)
-
 
   if (!user) {
     return response.status(404).json({error: 'User not found'})
@@ -45,11 +43,11 @@ function checksTodoExists(request, response, next) {
   if (!validate(id,4)) {
     return response.status(400).json({error: 'Uudi not availability'})
   }
-  if(!todo){
+  if(!user.todos.some((todo) => todo.id = id)){
     return response.status(404).json({error: 'Todo not found'})
   }
   request.user = user;
-  request.todo = todo
+  request.todo = user.todos.find((todo) => todo.id === id);
   return next();
 
 }
